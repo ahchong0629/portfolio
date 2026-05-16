@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Wei Chuang's Portfolio</title>
+<style>
+[data-theme="dark"]{
+  --bg:#06060a;--s1:#0d0d14;
+  --text:#f0f2ff;--muted:#9299b5;--soft:#4a506a;
+  --border:rgba(255,255,255,.08);--glass:rgba(255,255,255,.05);
+  --card-bg:#0d0d14;--nav-bg:rgba(8,8,14,.6);
+  --p:#b87cff;--p2:#7aa6ff;
+  --pg:linear-gradient(135deg,#b87cff,#7aa6ff);
+  --divider:rgba(184,124,255,.2);
+}
+[data-theme="light"]{
+  --bg:#f3f3f8;--s1:#ffffff;
+  --text:#0d0d18;--muted:#5a607a;--soft:#9298b0;
+  --border:rgba(0,0,0,.09);--glass:rgba(0,0,0,.04);
+  --card-bg:#ffffff;--nav-bg:rgba(243,243,248,.8);
+  --p:#7c3aed;--p2:#2563eb;
+  --pg:linear-gradient(135deg,#7c3aed,#2563eb);
+  --divider:rgba(124,58,237,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+  background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.55;}
+.glow-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 45% at 15% 10%,rgba(184,124,255,.09),transparent),
+    radial-gradient(ellipse 50% 40% at 85% 15%,rgba(122,166,255,.08),transparent),
+    radial-gradient(ellipse 40% 35% at 50% 90%,rgba(184,124,255,.06),transparent);}
+[data-theme="light"] .glow-bg{opacity:.3;}
+
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);
+  width:min(1140px,calc(100% - 24px));z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 20px;border-radius:16px;
+  background:var(--nav-bg);border:1px solid var(--border);
+  backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);}
+.nav-logo{font-size:13px;font-weight:700;flex-shrink:0;
+  background:var(--pg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-links{display:flex;gap:2px;list-style:none;flex:1;justify-content:center;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12.5px;padding:6px 9px;border-radius:8px;}
+.nav-links a:hover{color:var(--text);background:var(--glass);}
+.theme-toggle{display:flex;border-radius:999px;border:1px solid var(--border);
+  background:var(--glass);overflow:hidden;flex-shrink:0;}
+.theme-btn{padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;
+  background:transparent;border:none;color:var(--muted);letter-spacing:.04em;}
+.theme-btn.active{background:var(--pg);color:#fff;}
+
+#hero{position:relative;z-index:1;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:120px 24px 80px;}
+.hero-inner{max-width:900px;width:100%;
+  display:flex;align-items:center;gap:56px;flex-wrap:wrap;justify-content:center;}
+.avatar-wrap{flex-shrink:0;position:relative;}
+.avatar-ring{width:176px;height:176px;border-radius:50%;padding:3px;background:var(--pg);}
+.avatar-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;
+  object-position:center top;display:block;border:3px solid var(--bg);}
+.avatar-badge{position:absolute;bottom:8px;right:8px;width:20px;height:20px;
+  border-radius:50%;background:#22c55e;border:3px solid var(--bg);}
+.hero-copy{flex:1;min-width:260px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:999px;margin-bottom:20px;
+  background:rgba(184,124,255,.08);border:1px solid rgba(184,124,255,.25);
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--p);}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--p);flex-shrink:0;}
+.hero-name{font-size:clamp(2.4rem,5.5vw,5rem);font-weight:700;
+  letter-spacing:-.05em;line-height:.94;margin-bottom:14px;
+  background:linear-gradient(135deg,var(--text) 20%,var(--p) 60%,var(--p2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-role{font-size:clamp(.95rem,1.8vw,1.18rem);color:var(--muted);
+  margin-bottom:18px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.role-prefix{color:var(--soft);}
+.role-typed{color:var(--text);border-right:2px solid var(--p);padding-right:2px;white-space:nowrap;}
+.hero-desc{color:var(--muted);font-size:.98rem;line-height:1.82;margin-bottom:28px;max-width:500px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 22px;
+  border-radius:999px;text-decoration:none;font-size:14px;font-weight:600;
+  border:1px solid transparent;cursor:pointer;background:none;outline:none;}
+.btn-fill{background:var(--pg);color:#fff;}
+.btn-fill:hover{filter:brightness(1.1);}
+.btn-line{color:var(--text);border-color:var(--border);background:var(--glass);}
+.btn-line:hover{border-color:var(--p);}
+
+section{position:relative;z-index:1;}
+.wrap{max-width:1060px;margin:0 auto;padding:90px 24px;}
+.sec-tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--p);margin-bottom:8px;font-weight:600;}
+.sec-title{font-size:clamp(1.8rem,3.2vw,2.8rem);font-weight:700;
+  letter-spacing:-.04em;margin-bottom:36px;
+  background:linear-gradient(135deg,var(--text) 40%,var(--p) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;}
+hr.div{border:none;height:1px;
+  background:linear-gradient(90deg,transparent,var(--divider),transparent);margin:0 24px;}
+
+.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:28px;align-items:start;}
+.about-photo{border-radius:22px;overflow:hidden;aspect-ratio:3/4;border:1px solid var(--border);}
+.about-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;
+  filter:brightness(.88) saturate(1.05);display:block;}
+.about-right{display:flex;flex-direction:column;gap:22px;}
+.about-lead{font-size:1.02rem;line-height:1.82;color:var(--muted);}
+.about-lead strong{color:var(--text);}
+.info-row{display:flex;gap:10px;flex-wrap:wrap;}
+.info-pill{padding:8px 13px;border-radius:10px;background:var(--glass);
+  border:1px solid var(--border);font-size:13px;color:var(--muted);}
+.info-pill b{color:var(--text);}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.scard{padding:18px;border-radius:16px;background:var(--glass);
+  border:1px solid var(--border);text-align:center;}
+.scard .n{font-size:1.9rem;font-weight:800;
+  background:var(--pg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.scard .l{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+.proj-tabs{display:flex;border-radius:14px;border:1px solid var(--border);
+  background:var(--glass);width:fit-content;margin-bottom:32px;overflow:hidden;}
+.tab-btn{padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;
+  background:transparent;border:none;color:var(--muted);letter-spacing:.02em;outline:none;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{background:var(--pg);color:#fff;}
+.proj-panels{position:relative;}
+.proj-panel{display:none;grid-template-columns:repeat(3,1fr);gap:18px;}
+.proj-panel.active{display:grid;}
+.pcard{border-radius:20px;overflow:hidden;border:1px solid var(--border);
+  background:var(--card-bg);display:flex;flex-direction:column;}
+.pcard:hover{border-color:rgba(184,124,255,.35);transform:translateY(-4px);}
+.pcard-img{height:175px;overflow:hidden;flex-shrink:0;}
+.pcard-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.9);display:block;}
+.pcard-body{padding:20px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.pcard-cat{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--p2);font-weight:700;}
+.pcard-title{font-size:1rem;font-weight:700;line-height:1.3;color:var(--text);}
+.pcard-desc{font-size:13px;color:var(--muted);line-height:1.68;flex:1;}
+.pcard-tags{display:flex;gap:6px;flex-wrap:wrap;padding-top:8px;}
+.pcard-tags span{padding:4px 9px;border-radius:999px;
+  background:rgba(122,166,255,.07);border:1px solid rgba(122,166,255,.13);
+  color:var(--p2);font-size:11px;}
+
+/* EDUCATION */
+.edu-stack{display:grid;gap:16px;}
+.edu-card{display:flex;align-items:center;gap:22px;
+  padding:22px 26px;border-radius:20px;background:var(--glass);border:1px solid var(--border);}
+.edu-card:hover{border-color:rgba(184,124,255,.28);}
+.edu-logo{width:56px;height:56px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;padding:7px;}
+.edu-logo img{width:100%;height:100%;object-fit:contain;}
+.edu-logo.uzh img{filter:brightness(0) invert(1);opacity:.75;}
+[data-theme="light"] .edu-logo.uzh img{filter:none;opacity:1;}
+.edu-logo.pku{padding:4px;}
+.edu-logo.pku img{filter:none;opacity:.9;}
+.edu-logo.dla{padding:2px;}
+.edu-logo.dla img{filter:none;border-radius:50%;}
+.edu-info{flex:1;}
+.edu-degree{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--p);font-weight:700;margin-bottom:4px;}
+.edu-title{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.edu-school{font-size:13px;color:var(--muted);margin-bottom:6px;}
+.edu-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.edu-date{font-size:12px;color:var(--soft);}
+.edu-gpa{padding:3px 10px;border-radius:999px;
+  background:rgba(184,124,255,.1);border:1px solid rgba(184,124,255,.2);
+  font-size:12px;color:var(--p);font-weight:600;}
+.edu-cert-link{padding:3px 10px;border-radius:999px;
+  background:rgba(122,166,255,.08);border:1px solid rgba(122,166,255,.2);
+  font-size:12px;color:var(--p2);font-weight:600;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;}
+.edu-cert-link:hover{background:rgba(122,166,255,.16);color:var(--text);}
+
+/* EXPERIENCE */
+.exp-stack{display:grid;gap:14px;}
+.exp-item{padding:24px 26px;border-radius:20px;background:var(--glass);border:1px solid var(--border);}
+.exp-item:hover{border-color:rgba(184,124,255,.28);}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.exp-role{font-size:1.05rem;font-weight:700;color:var(--text);}
+.exp-date{font-size:12px;color:var(--p);padding:4px 11px;border-radius:999px;
+  background:rgba(184,124,255,.08);border:1px solid rgba(184,124,255,.18);white-space:nowrap;}
+.exp-org{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.exp-pts{list-style:none;display:grid;gap:6px;}
+.exp-pts li{font-size:13.5px;color:var(--muted);padding-left:16px;position:relative;line-height:1.62;}
+.exp-pts li::before{content:"▸";position:absolute;left:0;color:var(--p);font-size:10px;top:4px;}
+.exp-pts li strong{color:var(--text);}
+/* cert badge inline */
+.cert-badge{display:inline-flex;align-items:center;gap:5px;
+  padding:2px 9px;border-radius:999px;
+  background:rgba(122,166,255,.08);border:1px solid rgba(122,166,255,.2);
+  font-size:11.5px;color:var(--p2);text-decoration:none;vertical-align:middle;margin-left:6px;}
+.cert-badge:hover{background:rgba(122,166,255,.18);color:var(--text);}
+.cert-badge svg{flex-shrink:0;}
+
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.sg{padding:20px;border-radius:17px;background:var(--glass);border:1px solid var(--border);}
+.sg:hover{border-color:rgba(184,124,255,.25);}
+.sg h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--p);margin-bottom:12px;font-weight:700;}
+.spills{display:flex;flex-wrap:wrap;gap:7px;}
+.spills span{padding:6px 11px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--border);color:var(--muted);font-size:12px;}
+.spills span:hover{border-color:rgba(184,124,255,.3);color:var(--text);}
+
+.contact-box{text-align:center;padding:72px 28px;border-radius:26px;
+  background:linear-gradient(135deg,rgba(184,124,255,.06),rgba(122,166,255,.05)),var(--s1);
+  border:1px solid var(--border);}
+.contact-box h2{font-size:clamp(1.7rem,3.5vw,2.8rem);font-weight:700;
+  letter-spacing:-.04em;margin-bottom:14px;
+  background:linear-gradient(135deg,var(--text) 30%,var(--p) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.contact-box p{color:var(--muted);font-size:16px;max-width:480px;margin:0 auto 30px;line-height:1.8;}
+.clinks{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.soc-btn{padding:11px 20px;border-radius:999px;border:1px solid var(--border);
+  background:var(--glass);color:var(--muted);text-decoration:none;font-size:13px;
+  display:flex;align-items:center;gap:7px;}
+.soc-btn:hover{border-color:rgba(184,124,255,.4);color:var(--text);}
+
+footer{text-align:center;padding:24px;font-size:12px;color:var(--soft);
+  position:relative;z-index:1;border-top:1px solid var(--border);}
+
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;}
+  .about-photo{aspect-ratio:4/3;}
+  .proj-panel.active{grid-template-columns:1fr 1fr;}
+  .nav-links li:nth-child(n+4){display:none;}
+  .stat-row{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:620px){
+  .hero-inner{flex-direction:column;text-align:center;}
+  .hero-btns{justify-content:center;}
+  .hero-role{justify-content:center;}
+  .proj-panel.active{grid-template-columns:1fr;}
+  .avatar-ring{width:140px;height:140px;}
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .wrap{padding:64px 16px;}
+  .exp-header{flex-direction:column;}
+  .edu-card{flex-direction:column;align-items:flex-start;gap:14px;}
+  .nav-links{display:none;}
+}
+.carousel{position:relative;width:100%;height:100%;border-radius:22px;overflow:hidden;}
+.carousel-track{width:100%;height:100%;position:relative;}
+.carousel-slide{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  opacity:0;transition:opacity .5s ease;
+  display:block;filter:brightness(.88) saturate(1.05);
+}
+.carousel-slide.active{opacity:1;}
+.car-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,.45);color:#fff;border:1px solid rgba(255,255,255,.15);
+  border-radius:50%;width:36px;height:36px;font-size:16px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(6px);transition:.2s;z-index:10;padding:0;
+}
+.car-btn:hover{background:rgba(184,124,255,.55);}
+.car-prev{left:10px;} .car-next{right:10px;}
+.car-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:6px;z-index:10;}
+.car-dot{width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,.35);cursor:pointer;transition:.25s;border:none;padding:0;}
+.car-dot.active{background:#fff;transform:scale(1.25);}
+</style>
+</head>
+<body>
+<div class="glow-bg"></div>
+
+<nav>
+  <div class="nav-logo">Wei Chuang's Portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#about">About me</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experiences</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="theme-toggle">
+    <button class="theme-btn" id="btnBright" onclick="setTheme('light')">Bright</button>
+    <button class="theme-btn active" id="btnDark" onclick="setTheme('dark')">Dark</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="avatar-wrap">
+      <div class="avatar-ring">
+        <!-- REPLACE src="IMG_6062.jpeg" -->
+        <img src="IMG_5436_4.jpg" alt="Wei Chuang Lee"/>
+      </div>
+      <div class="avatar-badge"></div>
+    </div>
+    <div class="hero-copy">
+      <div class="hero-badge"><span class="badge-dot"></span>Open to opportunities &middot; Z&uuml;rich</div>
+      <h1 class="hero-name">Wei Chuang Lee</h1>
+      <div class="hero-role">
+        <span class="role-prefix">I&rsquo;m a&nbsp;</span>
+        <span class="role-typed" id="typeTarget"></span>
+      </div>
+      <p class="hero-desc">PhD physicist combined with AI engineer &mdash; I bridge precision measurement science with machine learning to build systems that actually work in the real world.</p>
+      <div class="hero-btns">
+        <a class="btn btn-fill" href="#projects">View my work</a>
+        <a class="btn btn-line" href="#contact">Let&rsquo;s connect</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<section id="about">
+  <div class="wrap">
+    <p class="sec-tag">// About me</p>
+    <h2 class="sec-title">From atoms to algorithms.</h2>
+    <div class="about-grid">
+      <div class="about-photo">
+         <div class="carousel" id="aboutCarousel">
+
+           <div class="carousel-track">
+            <img class="carousel-slide active" src="self_image1.png" alt="Photo 1"/>
+            <img class="carousel-slide"        src="self_image2.jpg" alt="Photo 2"/>
+            <img class="carousel-slide"        src="self_image3.jpg" alt="Photo 3"/>
+           </div>
+
+          <button class="car-btn car-prev" onclick="carMove(-1)">&#8592;</button>
+          <button class="car-btn car-next" onclick="carMove(+1)">&#8594;</button>
+          <div class="car-dots" id="carDots"></div>
+
+        </div>
+      </div>
+      <div class="about-right">
+        <p class="about-lead">
+          I spent 5 years building <strong>synchrotron-compatible measurement systems</strong> at PSI Swiss Light Source, designing experiments from scratch, automating data pipelines, and publishing peer-reviewed physics research.
+          <br/><br/>
+          Now I apply that same first-principles mindset to <strong>AI and ML engineering</strong>: computer vision pipelines, LLM evaluation, and data-driven automation. I don&rsquo;t just run models. I understand why they work.
+        </p>
+        <div class="info-row">
+          <div class="info-pill">&#x1F4CD; <b>Z&uuml;rich, Switzerland</b></div>
+          <div class="info-pill">&#x1F4AC; <b>7 Languages</b></div>
+          <div class="info-pill">&#x2705; <b>Available now</b></div>
+          <div class="info-pill">&#x1F393; <b>PhD Physics, UZH</b></div>
+          <div class="info-pill">&#x1F393; <b>AI Project Builder</b></div>
+        </div>
+        <div class="stat-row">
+          <div class="scard"><div class="n">5+</div><div class="l">Years of research</div></div>
+          <div class="scard"><div class="n">3</div><div class="l">Publications</div></div>
+          <div class="scard"><div class="n">1&times;</div><div class="l">GitHub Project</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<section id="projects">
+  <div class="wrap">
+    <p class="sec-tag">// Selected Projects</p>
+    <h2 class="sec-title">What I&rsquo;ve built.</h2>
+    <div class="proj-tabs">
+      <button class="tab-btn active" onclick="switchTab('ai',this)">&#x1F916; AI-related</button>
+      <button class="tab-btn" onclick="switchTab('physics',this)">&#x269B;&#xFE0F; Physics-related</button>
+    </div>
+    <div class="proj-panels">
+      <div class="proj-panel active" id="tab-ai">
+        <div class="pcard">
+          <div class="pcard-img"><img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=700&q=80" alt="CNN"/></div>
+          <div class="pcard-body">
+            <div class="pcard-cat">GitHub project: AI agent</div>
+            <div class="pcard-title">AI Research article Assistant (AIRA)</div>
+            <div class="pcard-desc">Self-developed AIRA connected to LLM to provide article summary within minutes that increases efficiency in research.  </div>
+            <a class="cert-badge" href="https://github.com/ahchong0629/-AIRA-AI-research-article-Assistant" target="_blank">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15l-2 5-5-1 1-5M12 15l2 5 5-1-1-5M12 15V3M7.5 9.5l4.5-6.5 4.5 6.5"/></svg>
+              GitHub project: AIRA
+            </a>
+            <div class="pcard-tags"><span>PyTorch</span><span>CNN</span><span>Python</span><span>&gt;90% acc.</span><span>AI/ML project</span></div>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-img"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=700&q=80" alt="LLM"/></div>
+          <div class="pcard-body">
+            <div class="pcard-cat">LLM Evaluation</div>
+            <div class="pcard-title">Frontier LLM Benchmarking</div>
+            <div class="pcard-desc">Systematic comparison of GPT-5.2, Qwen, and others on PhD-level scientific reasoning and coding tasks.</div>
+            <div class="pcard-tags"><span>LLM</span><span>Prompt Eng.</span><span>Evaluation</span></div>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80" alt="Pipeline"/></div>
+          <div class="pcard-body">
+            <div class="pcard-cat">Automation &middot; Data Pipeline</div>
+            <div class="pcard-title">Beamline Analysis Automation</div>
+            <div class="pcard-desc">Python + LabVIEW pipelines for XAS spectroscopy &mdash; 40% faster analysis cycles, 5&times; signal boost.</div>
+            <div class="pcard-tags"><span>Python</span><span>LabVIEW</span><span>40% faster</span><span>5&times; signal</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-panel" id="tab-physics">
+        <div class="pcard">
+          <div class="pcard-img">
+            <!-- REPLACE src="IMG_9665-2.jpeg" -->
+            <img src="/Users/ahchong/Desktop/chong/self/work_related/Portfolio/test2_CeTi@C80.gif" alt="Synchrotron"/>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-cat">Condensed Matter &middot; Synchrotron</div>
+            <div class="pcard-title">Single-Molecule Magnet @ PSI SLS</div>
+            <div class="pcard-desc">Characterised CeTi@C&#x2088;&#x2080; &mdash; endofullerene with electric and magnetic dipoles. Published in Carbon (2025).</div>
+            <div class="pcard-tags"><span>XAS/XPS</span><span>PSI SLS</span><span>Carbon 2025</span></div>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-img">
+            <!-- REPLACE src="IMG_5436-3-3.jpg" -->
+            <img src="/Users/ahchong/Desktop/chong/self/work_related/Portfolio/pic2_physic_project.png" alt="Fabrication"/>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-cat">Nanofabrication &middot; Device Physics</div>
+            <div class="pcard-title">Graphene Dielectric Device Fabrication</div>
+            <div class="pcard-desc">PECVD thin-film in UHV for graphene-based devices. Full characterisation: XPS, XAS, SEM/EDX, STM/AFM.</div>
+            <div class="pcard-tags"><span>PECVD</span><span>UHV</span><span>SEM/EDX</span></div>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pcard-img"><img src="/Users/ahchong/Desktop/chong/self/work_related/Portfolio/pic3_physics_project.png" alt="Gas sensor"/></div>
+          <div class="pcard-body">
+            <div class="pcard-cat">Sensors &middot; Semiconductor</div>
+            <div class="pcard-title">MOS Electrochemical Gas Sensor</div>
+            <div class="pcard-desc">MSc thesis: MOS sensors from concept to device verification &mdash; nanosilver contacts, SiO&#x2082; dielectric.</div>
+            <div class="pcard-tags"><span>MOS Device</span><span>SiO&#x2082;</span><span>MSc Thesis</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrap">
+    <p class="sec-tag">// Education</p>
+    <h2 class="sec-title">Academic background.</h2>
+    <div class="edu-stack">
+
+      <div class="edu-card">
+        <div class="edu-logo uzh">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Uni_Zuerich_Siegel.svg/1280px-Uni_Zuerich_Siegel.svg.png" alt="UZH logo"/>
+        </div>
+        <div class="edu-info">
+          <div class="edu-degree">Doctor of Philosophy</div>
+          <div class="edu-title">PhD &middot; Condensed Matter Physics</div>
+          <div class="edu-school">Universit&auml;t Z&uuml;rich &middot; Paul Scherrer Institut (PSI)</div>
+          <div class="edu-meta">
+            <span class="edu-date">Sep 2021 &mdash; Nov 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-logo uzh">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Uni_Zuerich_Siegel.svg/1280px-Uni_Zuerich_Siegel.svg.png" alt="UZH logo"/>
+        </div>
+        <div class="edu-info">
+          <div class="edu-degree">Master of Science</div>
+          <div class="edu-title">MSc &middot; Physics</div>
+          <div class="edu-school">Universit&auml;t Z&uuml;rich</div>
+          <div class="edu-meta">
+            <span class="edu-date">Sep 2019 &mdash; Aug 2021</span>
+            <span class="edu-gpa">GPA 5.9 / 6.0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-logo pku">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Peking_University_seal.svg/1280px-Peking_University_seal.svg.png" alt="Peking University logo"/>
+        </div>
+        <div class="edu-info">
+          <div class="edu-degree">Bachelor of Science</div>
+          <div class="edu-title">BSc &middot; Physics</div>
+          <div class="edu-school">Peking University &#xFF08;&#x5317;&#x4EAC;&#x5927;&#x5B66;&#xFF09;</div>
+          <div class="edu-meta">
+            <span class="edu-date">Aug 2015 &mdash; Jul 2019</span>
+            <span class="edu-gpa">GPA 3.2 / 4.0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <p class="sec-tag">// Experiences</p>
+    <h2 class="sec-title">Where I&rsquo;ve worked.</h2>
+    <div class="exp-stack">
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Quantitative &amp; ML Engineer (Self-directed)</div>
+            <div class="exp-org">Independent Research &middot; DeepLearning.AI Certified</div>
+          </div>
+          <span class="exp-date">Mar 2026 &mdash; Present</span>
+        </div>
+        <ul class="exp-pts">
+          <li>
+            CNN defect-classification pipelines &mdash; <strong>&gt;90% validation accuracy</strong>.
+            <a class="cert-badge" href="https://learn.deeplearning.ai/certificates/800b30b0-4ea6-4488-a091-91ca7a99411a" target="_blank">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15l-2 5-5-1 1-5M12 15l2 5 5-1-1-5M12 15V3M7.5 9.5l4.5-6.5 4.5 6.5"/></svg>
+              DeepLearning.AI Certificate
+            </a>
+          </li>
+          <li>Benchmarked frontier LLMs on PhD-level reasoning and coding; documented failure modes.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Postdoctoral Researcher &mdash; Oxide Thin-Film Physics</div>
+            <div class="exp-org">Universit&auml;t Z&uuml;rich &middot; Prof. Dr. Johanna Nordlander</div>
+          </div>
+          <span class="exp-date">Dec 2025 &mdash; Feb 2026</span>
+        </div>
+        <ul class="exp-pts">
+          <li>Novel measurement procedures for nanoscale oxide thin films, adopted for ongoing group research.</li>
+          <li>Co-supervised MSc students; managed experiments, data analysis, and a PI grant application.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">PhD Candidate &amp; Experimental Physicist</div>
+            <div class="exp-org">Universit&auml;t Z&uuml;rich &middot; Paul Scherrer Institut (PSI)</div>
+          </div>
+          <span class="exp-date">Sep 2021 &mdash; Nov 2025</span>
+        </div>
+        <ul class="exp-pts">
+          <li>Signal detection improved <strong>5&times;</strong> by redesigning the optical acquisition pipeline.</li>
+          <li>Analysis time cut <strong>40%</strong> via automated XAS calibration and spectroscopy workflows.</li>
+          <li>Root-cause diagnosis <strong>40% faster</strong> by correlating SEM, EDX, and electrical data.</li>
+          <li>Published 3 first-author papers in <em>Carbon</em> and <em>JVSTA</em> (2022&ndash;2025).</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">MSc Research &mdash; Electrochemical Gas Sensor</div>
+            <div class="exp-org">Universit&auml;t Z&uuml;rich &middot; GPA 5.9 / 6.0</div>
+          </div>
+          <span class="exp-date">Sep 2019 &mdash; Aug 2021</span>
+        </div>
+        <ul class="exp-pts">
+          <li>Designed and fabricated MOS-based gas sensors from concept through device verification.</li>
+          <li>Nanosilver contacts, SiO&#x2082; characterisation, multi-analyte electrical testing.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<section id="skills">
+  <div class="wrap">
+    <p class="sec-tag">// Skills</p>
+    <h2 class="sec-title">Tools &amp; expertise.</h2>
+    <div class="skills-grid">
+      <div class="sg">
+        <h4>AI / ML</h4>
+        <div class="spills">
+          <span>Python</span><span>PyTorch</span><span>Vision Language Model (VLM)</span><span>Scikit-learn</span>
+          <span>CNN / Deep Learning</span><span>LLM Evaluation</span>
+          <span>Data Pipelines</span><span>NumPy / Pandas</span>
+        </div>
+      </div>
+      <div class="sg">
+        <h4>Instrumentation</h4>
+        <div class="spills">
+          <span>XPS / XAS</span><span>SEM / EDX</span><span>STM / AFM</span>
+          <span>LabVIEW</span><span>IgorPro</span>
+          <span>Signal Processing</span><span>V&amp;V Protocols</span>
+        </div>
+      </div>
+      <div class="sg">
+        <h4>Fabrication</h4>
+        <div class="spills">
+          <span>PECVD Thin Films</span><span>UHV Systems</span>
+          <span>Cleanroom</span><span>Dielectric Oxides</span>
+          <span>2D Materials</span><span>Reactive Ion Etching</span>
+        </div>
+      </div>
+      <div class="sg">
+        <h4>Software &amp; Methods</h4>
+        <div class="spills">
+          <span>Linux</span><span>MATLAB</span><span>Git / GitHub</span>
+          <span>Root Cause Analysis</span><span>DOE / SPC</span>
+          <span>Scientific Writing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <p class="sec-tag" style="text-align:center">// Contact</p>
+      <h2>Let&rsquo;s build something together.</h2>
+      <p>Open to AI/ML Engineer, Research Scientist, and Instrumentation roles.<br/>Fluent German &middot; Based in Z&uuml;rich &middot; Swiss C permit &middot; <br> Flexible availability. </p>
+      <div class="clinks">
+        <a class="btn btn-fill" href="mailto:ahchong0629@gmail.com">ahchong0629@gmail.com</a>
+        <a class="soc-btn" href="https://linkedin.com/in/ahchong" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Wei Chuang Lee &middot; Z&uuml;rich
+  &nbsp;&middot;&nbsp;
+  <span style="opacity:.3;font-size:11px"></span>
+</footer>
+
+<script>
+(function(){
+  var roles=["AI Research Engineer","Physics PhD","Instrumentation Builder",
+    "ML Pipeline Developer","Synchrotron Physicist","Data-Driven Scientist"];
+  var ri=0,ci=0,del=false;
+  var el=document.getElementById("typeTarget");
+  function type(){
+    var w=roles[ri];
+    if(!del){
+      el.textContent=w.slice(0,++ci);
+      if(ci===w.length){del=true;setTimeout(type,1900);return;}
+    } else {
+      el.textContent=w.slice(0,--ci);
+      if(ci===0){del=false;ri=(ri+1)%roles.length;}
+    }
+    setTimeout(type,del?46:82);
+  }
+  type();
+  setInterval(function(){
+    el.style.borderRightColor=el.style.borderRightColor==="transparent"?"var(--p)":"transparent";
+  },500);
+})();
+
+function setTheme(t){
+  document.documentElement.setAttribute("data-theme",t);
+  document.getElementById("btnBright").classList.toggle("active",t==="light");
+  document.getElementById("btnDark").classList.toggle("active",t==="dark");
+  try{localStorage.setItem("wcl-theme",t);}catch(e){}
+}
+try{var s=localStorage.getItem("wcl-theme");if(s)setTheme(s);}catch(e){}
+
+function switchTab(id,btn){
+  document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active");});
+  btn.classList.add("active");
+  document.querySelectorAll(".proj-panel").forEach(function(p){p.classList.remove("active");});
+  document.getElementById("tab-"+id).classList.add("active");
+}
+(function(){
+  var slides = document.querySelectorAll('.carousel-slide');
+  var dotsWrap = document.getElementById('carDots');
+  var cur = 0;
+  slides.forEach(function(_, i){
+    var d = document.createElement('button');
+    d.className = 'car-dot'+(i===0?' active':'');
+    d.onclick = function(){ carGoTo(i); };
+    dotsWrap.appendChild(d);
+  });
+  window.carMove = function(dir){
+    carGoTo((cur+dir+slides.length)%slides.length);
+  };
+  function carGoTo(n){
+    slides[cur].classList.remove('active');
+    dotsWrap.children[cur].classList.remove('active');
+    cur=n;
+    slides[cur].classList.add('active');
+    dotsWrap.children[cur].classList.add('active');
+  }
+})();
+</script>
+</body>
+</html>
